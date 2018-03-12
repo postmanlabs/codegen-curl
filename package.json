@@ -1,0 +1,23 @@
+{
+  "name": "codegen-curl",
+  "version": "1.0.0",
+  "description": "Converter plugin to convert from postman sdk request to cURL code snippet",
+  "com_postman_plugin": {
+    "type": "code_generator",
+    "lang": "curl",
+    "variant": "curl"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@bitbucket.org:kr0705/codegen-curl.git"
+  },
+  "author": "Kratigya Rastogi",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "4.17.5"
+  }
+}
