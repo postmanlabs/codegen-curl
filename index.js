@@ -1,59 +1,68 @@
-var sanitize = require('./util').sanitize;
+var sanitize = require('./util').sanitize,
     _ = require('lodash');
 
 module.exports = {
     convert: function (request, options, callback) {
 
-        var indentString = options.indentType === 'tab' ? '\t' : ' ';
-        indentString =  ' \\ \n' + indentString.repeat(options.indentCount);
-        var trimOpt = options.trimRequestBody;
+        var indent, trimOpt, snippet, headersData, body, text, redirect, timeout;
 
-        var snippet = `curl -X ${request.method}` + indentString;
+        indent = options.indentType === 'tab' ? '\t' : ' ';
+        indent = ' \\\n' + indent.repeat(options.indentCount);
+        trimOpt = options.trimRequestBody ? options.trimRequestBody : false;
+        snippet = `curl -X ${request.method} ${sanitize(request.url)}`;
+        redirect = options.followRedirect ? options.followRedirect : true;
+        timeout = options.requestTimeout ? options.requestTimeout : 0;
 
-        if (options.followRedirect) {
-            snippet += '-L ';
+        if (redirect) {
+            snippet += indent + '-L -s';
         }
-        if (options.requestTimeout > 0) {
-            snippet += `-m ${options.requestTimeout}` + indentString;
+        if (timeout > 0) {
+            snippet += indent + `-m ${timeout}`;
         }
 
-        var headersData = request.getHeaders({ enabled: true });
+        headersData = request.getHeaders({ enabled: true });
         _.forEach(headersData, function (value, key) {
-            snippet += `-H \' ${key}: ${value}\'` + indentString;
+            snippet += indent + `-H '${key}: ${value}'`;
         });
 
-        var body = request.body.toJSON();
+        body = request.body.toJSON();
 
-        if (body) {
-            switch(body.mode) {
+        if (!_.isEmpty(body)) {
+            switch (body.mode) {
                 case 'urlencoded':
-                    var text = [];
+                    text = [];
                     _.forEach(body.urlencoded, function (data) {
                         if (!data.disabled) {
-                            text.push(`${sanitize(body.key, trimOpt)}=${sanitize(body.value, trimOpt)}`);
+                            text.push(`${sanitize(data.key, trimOpt)}=${sanitize(data.value, trimOpt)}`);
                         }
                     });
-                    snippet += `-d ${text.join('&')}`+ indentString;
+                    snippet += indent + `-d '${text.join('&')}'`;
                     break;
                 case 'raw':
-                    snippet += `-d \'${sanitize(body.raw, trimOpt)}\'` + indentString;
+                    snippet += indent + `-d '${body.raw}'`;
                     break;
                 case 'formdata':
                     _.forEach(body.formdata, function (data) {
                         if (!(data.disabled)) {
                             if (data.type === 'file') {
-                                snippet += `-F ${sanitize(body.key, trimOpt)}=@${sanitize(body.value, trimOpt)}` + indentString;
+                                snippet += indent;
+                                snippet += `-F ${sanitize(data.key, trimOpt)}=@${sanitize(data.value, trimOpt)}`;
                             }
                             else {
-                                snippet += `-F ${sanitize(body.key, trimOpt)}=${sanitize(body.value, trimOpt)}` + indentString;
+                                snippet += indent;
+                                snippet += `-F ${sanitize(data.key, trimOpt)}=${sanitize(data.value, trimOpt)}`;
                             }
                         }
                     });
                     break;
                 case 'file':
-                    snippet += `--data-binary ${sanitize(body.key, trimOpt)}=@${sanitize(body.value, trimOpt)}` + indentString;
+                    snippet += indent;
+                    snippet += `--data-binary ${sanitize(body.key, trimOpt)}=@${sanitize(body.value, trimOpt)}`;
+                    break;
+                default:
+                    snippet += '-d ""';
             }
         }
-        return snippet;
+        callback(null, snippet);
     }
-}
+};
