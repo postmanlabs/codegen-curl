@@ -17,6 +17,8 @@ module.exports = {
     form: function (option, format) {
         if (format) {
             switch (option) {
+                case '-s':
+                    return '--silent';
                 case '-L':
                     return '--location';
                 case '-m':

@@ -5,13 +5,12 @@ var sanitize = require('./util').sanitize,
 module.exports = {
     convert: function (request, options, callback) {
 
-        var indent, trim, headersData, body, text, redirect, timeout, multiLine, format,
-            snippet = 'curl -s';
+        var indent, trim, headersData, body, text, redirect, timeout, multiLine, format, snippet;
         redirect = options.followRedirect || _.isUndefined(options.followRedirect);
         timeout = options.requestTimeout ? options.requestTimeout : 0;
         multiLine = options.multiLine || _.isUndefined(options.multiLine);
         format = options.longFormat || _.isUndefined(options.longFormat);
-
+        snippet = `curl ${form('-s', format)}`;
         if (redirect) {
             snippet += ` ${form('-L', format)}`;
         }
@@ -70,7 +69,7 @@ module.exports = {
                     break;
                 case 'file':
                     snippet += indent + `${form('--data-binary', format)}`;
-                    snippet += ` ${sanitize(body.key, trim)}=@${sanitize(body.value, trim)}`;
+                    snippet += ` "${sanitize(body.key, trim)}=@${sanitize(body.value, trim)}"`;
                     break;
                 default:
                     snippet += `${form('-d', format)} ""`;
