@@ -1,20 +1,22 @@
 var sanitize = require('./util').sanitize,
+    form = require('./util').form,
     _ = require('lodash');
 
 module.exports = {
     convert: function (request, options, callback) {
 
-        var indent, trimOpt, headersData, body, text, redirect, timeout, multiLine,
+        var indent, trim, headersData, body, text, redirect, timeout, multiLine, format,
             snippet = 'curl -s';
-        redirect = options.followRedirect || true;
+        redirect = options.followRedirect || _.isUndefined(options.followRedirect);
         timeout = options.requestTimeout ? options.requestTimeout : 0;
-        multiLine = options.multiLine;
+        multiLine = options.multiLine || _.isUndefined(options.multiLine);
+        format = options.longFormat || _.isUndefined(options.longFormat);
 
         if (redirect) {
-            snippet += ' -L';
+            snippet += ` ${form('-L', format)}`;
         }
         if (timeout > 0) {
-            snippet += ` -m ${timeout}`;
+            snippet += ` ${form('-m', format)} ${timeout}`;
         }
         if (multiLine) {
             indent = options.indentType === 'tab' ? '\t' : ' ';
@@ -23,17 +25,17 @@ module.exports = {
         else {
             indent = ' ';
         }
-        trimOpt = options.trimRequestBody ? options.trimRequestBody : false;
+        trim = options.trimRequestBody ? options.trimRequestBody : false;
         if (request.method === 'HEAD') {
-            snippet += ` -I "${encodeURI(request.url.toString())}"`;
+            snippet += ` ${form('-I', format)} "${encodeURI(request.url.toString())}"`;
         }
         else {
-            snippet += ` -X ${request.method} "${encodeURI(request.url.toString())}"`;
+            snippet += ` ${form('-X', format)} ${request.method} "${encodeURI(request.url.toString())}"`;
         }
 
         headersData = request.getHeaders({ enabled: true });
         _.forEach(headersData, function (value, key) {
-            snippet += indent + `-H "${key}: ${value}"`;
+            snippet += indent + `${form('-H', format)} "${key}: ${value}"`;
         });
 
         body = request.body.toJSON();
@@ -47,33 +49,51 @@ module.exports = {
                             text.push(`${escape(data.key)}=${escape(data.value)}`);
                         }
                     });
-                    snippet += indent + `-d "${text.join('&')}"`;
+                    snippet += indent + `${form('-d', format)} "${text.join('&')}"`;
                     break;
                 case 'raw':
-                    snippet += indent + `-d "${sanitize(body.raw.toString(), trimOpt)}"`;
+                    snippet += indent + `${form('-d', format)} "${sanitize(body.raw.toString(), trim)}"`;
                     break;
                 case 'formdata':
                     _.forEach(body.formdata, function (data) {
                         if (!(data.disabled)) {
                             if (data.type === 'file') {
-                                snippet += indent;
-                                snippet += `-F "${sanitize(data.key, trimOpt)}=@${sanitize(data.src, trimOpt)}"`;
+                                snippet += indent + `${form('-F', format)}`;
+                                snippet += ` "${sanitize(data.key, trim)}=@${sanitize(data.src, trim)}"`;
                             }
                             else {
-                                snippet += indent;
-                                snippet += `-F "${sanitize(data.key, trimOpt)}=${sanitize(data.value, trimOpt)}"`;
+                                snippet += indent + `${form('-F', format)}`;
+                                snippet += ` "${sanitize(data.key, trim)}=${sanitize(data.value, trim)}"`;
                             }
                         }
                     });
                     break;
                 case 'file':
-                    snippet += indent;
-                    snippet += `--data-binary ${sanitize(body.key, trimOpt)}=@${sanitize(body.value, trimOpt)}`;
+                    snippet += indent + `${form('--data-binary', format)}`;
+                    snippet += ` ${sanitize(body.key, trim)}=@${sanitize(body.value, trim)}`;
                     break;
                 default:
-                    snippet += '-d ""';
+                    snippet += `${form('-d', format)} ""`;
             }
         }
         callback(null, snippet);
+    },
+    getOptions: function () {
+        return [
+            {
+                name: 'MultiLine Curl Request',
+                id: 'multiLine',
+                type: 'boolean',
+                default: true,
+                description: 'denoting whether to get the request in single or multiple lines'
+            },
+            {
+                name: 'Long Format',
+                id: 'longFormat',
+                type: 'boolean',
+                default: true,
+                description: 'denoting whether to get the request in short form or long form'
+            }
+        ];
     }
 };

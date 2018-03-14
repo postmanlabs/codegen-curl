@@ -46,6 +46,7 @@ function runSnippet (codeSnippet, collection, done) {
                 var stdout = summary.response.stream.toString();
                 try {
                     stdout = JSON.parse(stdout);
+                    console.log(stdout);
                 }
                 catch (e) {
                     console.error(e);
@@ -115,16 +116,23 @@ describe('curl convert function', function () {
                                 request: request.toJSON()
                             }
                         ]
+                    },
+                    options = {
+                        indentCount: 3,
+                        indentType: 'space',
+                        requestTimeout: 1000,
+                        multiLine: true,
+                        followRedirect: true,
+                        longFormat: true
                     };
-                convert(request, {indentCount: 3, indentType: 'space', requestTimeout: 1000, multiLine: false},
-                    function (error, snippet) {
-                        if (error) {
-                            expect.fail(null, null, error);
-                            return;
-                        }
-                        console.log(snippet);
-                        runSnippet(snippet, collection, done);
-                    });
+                convert(request, options, function (error, snippet) {
+                    if (error) {
+                        expect.fail(null, null, error);
+                        return;
+                    }
+                    console.log(snippet);
+                    runSnippet(snippet, collection, done);
+                });
             });
         });
     });

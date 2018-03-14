@@ -13,5 +13,32 @@ module.exports = {
         }
         inputString = inputString.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
         return trim ? inputString.trim() : inputString;
+    },
+    form: function (option, format) {
+        if (format) {
+            switch (option) {
+                case '-L':
+                    return '--location';
+                case '-m':
+                    return '--max-time';
+                case '-I':
+                    return '--head';
+                case '-X':
+                    return '--request';
+                case '-H':
+                    return '--header';
+                case '-d':
+                    return '--data';
+                case '-F':
+                    return '--form';
+                case '--data-binary':
+                    return '--data-binary';
+                default:
+                    return '';
+            }
+        }
+        else {
+            return option;
+        }
     }
 };
