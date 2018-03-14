@@ -11,11 +11,7 @@ module.exports = {
         if (typeof inputString !== 'string') {
             return inputString;
         }
-        inputString = inputString.replace(/\\/g, '\\\\').replace(/'/g, '\\\'').replace(/"/g, '\\"');
-        return trim ? inputString.trim() : inputString;
-    },
-    sanitizeRawBody: function (inputString, trim) {
-        inputString = inputString.replace(/'/g, '\'\\\'\'');
+        inputString = inputString.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
         return trim ? inputString.trim() : inputString;
     }
 };

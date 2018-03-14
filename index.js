@@ -1,5 +1,4 @@
 var sanitize = require('./util').sanitize,
-    sanitizeRawBody = require('./util').sanitizeRawBody,
     _ = require('lodash');
 
 module.exports = {
@@ -21,10 +20,10 @@ module.exports = {
         indent = ' \\\n' + indent.repeat(options.indentCount);
         trimOpt = options.trimRequestBody ? options.trimRequestBody : false;
         if (request.method === 'HEAD') {
-            snippet += ` -I '${encodeURI(request.url.toString())}'`;
+            snippet += ` -I "${encodeURI(request.url.toString())}"`;
         }
         else {
-            snippet += ` -X ${request.method} '${encodeURI(request.url.toString())}'`;
+            snippet += ` -X ${request.method} "${encodeURI(request.url.toString())}"`;
         }
 
         headersData = request.getHeaders({ enabled: true });
@@ -46,18 +45,18 @@ module.exports = {
                     snippet += indent + `-d "${text.join('&')}"`;
                     break;
                 case 'raw':
-                    snippet += indent + `--data-raw '${sanitizeRawBody(body.raw.toString())}'`;
+                    snippet += indent + `--data-raw "${sanitize(body.raw.toString(), trimOpt)}"`;
                     break;
                 case 'formdata':
                     _.forEach(body.formdata, function (data) {
                         if (!(data.disabled)) {
                             if (data.type === 'file') {
                                 snippet += indent;
-                                snippet += `-F ${sanitize(data.key, trimOpt)}=@${sanitize(data.src, trimOpt)}`;
+                                snippet += `-F "${sanitize(data.key, trimOpt)}=@${sanitize(data.src, trimOpt)}"`;
                             }
                             else {
                                 snippet += indent;
-                                snippet += `-F ${sanitize(data.key, trimOpt)}=${sanitize(data.value, trimOpt)}`;
+                                snippet += `-F "${sanitize(data.key, trimOpt)}=${sanitize(data.value, trimOpt)}"`;
                             }
                         }
                     });

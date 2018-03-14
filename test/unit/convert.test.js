@@ -103,7 +103,7 @@ function runSnippet (codeSnippet, collection, done) {
     });
 }
 
-describe('okhttp convert function', function () {
+describe('curl convert function', function () {
     describe('convert for different request types', function () {
 
         mainCollection.item.forEach(function (item) {
@@ -116,14 +116,15 @@ describe('okhttp convert function', function () {
                             }
                         ]
                     };
-                convert(request, {indentCount: 3, indentType: 'space'}, function (error, snippet) {
-                    if (error) {
-                        expect.fail(null, null, error);
-                        return;
-                    }
-                    console.log(snippet);
-                    runSnippet(snippet, collection, done);
-                });
+                convert(request, {indentCount: 3, indentType: 'space', requestTimeout: 1000},
+                    function (error, snippet) {
+                        if (error) {
+                            expect.fail(null, null, error);
+                            return;
+                        }
+                        console.log(snippet);
+                        runSnippet(snippet, collection, done);
+                    });
             });
         });
     });
