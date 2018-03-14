@@ -45,7 +45,7 @@ module.exports = {
                     snippet += indent + `-d "${text.join('&')}"`;
                     break;
                 case 'raw':
-                    snippet += indent + `--data-raw "${sanitize(body.raw.toString(), trimOpt)}"`;
+                    snippet += indent + `-d "${sanitize(body.raw.toString(), trimOpt)}"`;
                     break;
                 case 'formdata':
                     _.forEach(body.formdata, function (data) {

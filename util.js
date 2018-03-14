@@ -9,7 +9,7 @@ module.exports = {
      */
     sanitize: function (inputString, trim) {
         if (typeof inputString !== 'string') {
-            return inputString;
+            return '';
         }
         inputString = inputString.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
         return trim ? inputString.trim() : inputString;
