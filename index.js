@@ -4,10 +4,11 @@ var sanitize = require('./util').sanitize,
 module.exports = {
     convert: function (request, options, callback) {
 
-        var indent, trimOpt, headersData, body, text, redirect, timeout,
+        var indent, trimOpt, headersData, body, text, redirect, timeout, multiLine,
             snippet = 'curl -s';
-        redirect = options.followRedirect ? options.followRedirect : true;
+        redirect = options.followRedirect || true;
         timeout = options.requestTimeout ? options.requestTimeout : 0;
+        multiLine = options.multiLine;
 
         if (redirect) {
             snippet += ' -L';
@@ -15,9 +16,13 @@ module.exports = {
         if (timeout > 0) {
             snippet += ` -m ${timeout}`;
         }
-
-        indent = options.indentType === 'tab' ? '\t' : ' ';
-        indent = ' \\\n' + indent.repeat(options.indentCount);
+        if (multiLine) {
+            indent = options.indentType === 'tab' ? '\t' : ' ';
+            indent = ' \\\n' + indent.repeat(options.indentCount);
+        }
+        else {
+            indent = ' ';
+        }
         trimOpt = options.trimRequestBody ? options.trimRequestBody : false;
         if (request.method === 'HEAD') {
             snippet += ` -I "${encodeURI(request.url.toString())}"`;

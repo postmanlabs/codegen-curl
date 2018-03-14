@@ -116,7 +116,7 @@ describe('curl convert function', function () {
                             }
                         ]
                     };
-                convert(request, {indentCount: 3, indentType: 'space', requestTimeout: 1000, followRedirect: false},
+                convert(request, {indentCount: 3, indentType: 'space', requestTimeout: 1000, multiLine: false},
                     function (error, snippet) {
                         if (error) {
                             expect.fail(null, null, error);
