@@ -44,9 +44,12 @@ function runSnippet (codeSnippet, collection, done) {
                 }
 
                 var stdout = summary.response.stream.toString();
+                if (summary.request.method === 'HEAD') {
+                    stdout = summary.response.code.toString();
+                    return callback(null, stdout);
+                }
                 try {
                     stdout = JSON.parse(stdout);
-                    console.log(stdout);
                 }
                 catch (e) {
                     console.error(e);
@@ -59,7 +62,7 @@ function runSnippet (codeSnippet, collection, done) {
             expect.fail(null, null, err);
         }
         else if (typeof result[1] !== 'object' || typeof result[0] !== 'object') {
-            expect(result[0].trim()).to.equal(result[1].trim());
+            expect(result[0].trim()).to.include(result[1].trim());
         }
         else {
             const propertiesTodelete = ['cookies', 'headersSize', 'startedDateTime'],
@@ -120,7 +123,7 @@ describe('curl convert function', function () {
                     options = {
                         indentCount: 3,
                         indentType: 'space',
-                        requestTimeout: 1000,
+                        requestTimeout: 200,
                         multiLine: true,
                         followRedirect: true,
                         longFormat: true

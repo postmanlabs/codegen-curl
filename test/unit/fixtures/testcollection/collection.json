@@ -258,12 +258,6 @@
 							"description": "",
 							"type": "text",
 							"disabled": true
-						},
-						{
-							"key": "krat",
-							"src": "/Users/postman/Documents/krat.txt",
-							"description": "",
-							"type":"file"
 						}
 					]
 				},
