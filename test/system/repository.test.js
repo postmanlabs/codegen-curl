@@ -33,7 +33,7 @@ describe('project repository', function () {
             it('must have valid name, description and author', function () {
                 expect(json).to.have.property('name', 'codegen-curl');
                 expect(json).to.have.property('author', 'Kratigya Rastogi');
-                expect(json).to.have.property('license', 'ISC');
+                expect(json).to.have.property('license', 'Apache-2.0');
 
                 expect(json).to.have.property('repository');
                 expect(json.repository).to.eql({

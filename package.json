@@ -19,7 +19,7 @@
     "url": "git@bitbucket.org:kr0705/codegen-curl.git"
   },
   "author": "Kratigya Rastogi",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "dependencies": {
     "lodash": "4.17.5"
   },
@@ -35,7 +35,7 @@
     "eslint-plugin-security": "1.4.0",
     "mocha": "5.0.4",
     "newman": "3.9.3",
-    "nsp": "3.2.1",
+    "nsp": "2.8.0",
     "nyc": "11.4.1",
     "parse-gitignore": "0.4.0",
     "postman-collection": "3.0.7",

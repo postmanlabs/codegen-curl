@@ -133,7 +133,6 @@ describe('curl convert function', function () {
                         expect.fail(null, null, error);
                         return;
                     }
-                    console.log(snippet);
                     runSnippet(snippet, collection, done);
                 });
             });
