@@ -16,10 +16,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@bitbucket.org:kr0705/codegen-curl.git"
+    "url": "git@bitbucket.org:postmanlabs/codegen-curl.git"
   },
-  "author": "Kratigya Rastogi",
+  "author": "Postman Labs <help@getpostman.com>",
   "license": "Apache-2.0",
+  "homepage": "https://bitbucket.org/postmanlabs/codegen-curl#readme",
   "dependencies": {
     "lodash": "4.17.5"
   },

@@ -5,7 +5,7 @@
 ## Getting Started
 To get a copy on your local machine
 ```bash
-$ git clone git@bitbucket.org:kr0705/codegen-curl.git
+$ git clone git@bitbucket.org:postmanlabs/codegen-curl.git
 ```
 
 #### Prerequisites
