@@ -32,13 +32,13 @@ describe('project repository', function () {
         describe('package.json JSON data', function () {
             it('must have valid name, description and author', function () {
                 expect(json).to.have.property('name', 'codegen-curl');
-                expect(json).to.have.property('author', 'Kratigya Rastogi');
+                expect(json).to.have.property('author', 'Postman Labs <help@getpostman.com>');
                 expect(json).to.have.property('license', 'Apache-2.0');
 
                 expect(json).to.have.property('repository');
                 expect(json.repository).to.eql({
                     type: 'git',
-                    url: 'git@bitbucket.org:kr0705/codegen-curl.git'
+                    url: 'git@bitbucket.org:postmanlabs/codegen-curl.git'
                 });
 
                 expect(json).to.have.property('engines');
