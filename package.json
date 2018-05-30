@@ -5,7 +5,8 @@
   "com_postman_plugin": {
     "type": "code_generator",
     "lang": "curl",
-    "variant": "curl"
+    "variant": "curl",
+    "syntax_mode": "powershell"
   },
   "main": "index.js",
   "scripts": {
