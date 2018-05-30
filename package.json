@@ -1,11 +1,12 @@
 {
   "name": "@postman/codegen-curl",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Converter plugin to convert from postman sdk request to cURL code snippet",
   "com_postman_plugin": {
     "type": "code_generator",
     "lang": "curl",
-    "variant": "curl"
+    "variant": "curl",
+    "syntax_mode": "powershell"
   },
   "main": "index.js",
   "scripts": {
