@@ -31,7 +31,7 @@ describe('project repository', function () {
 
         describe('package.json JSON data', function () {
             it('must have valid name, description and author', function () {
-                expect(json).to.have.property('name', 'codegen-curl');
+                expect(json).to.have.property('name', '@postman/codegen-curl');
                 expect(json).to.have.property('author', 'Postman Labs <help@getpostman.com>');
                 expect(json).to.have.property('license', 'Apache-2.0');
 
