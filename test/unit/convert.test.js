@@ -65,12 +65,14 @@ function runSnippet (codeSnippet, collection, done) {
             expect(result[0].trim()).to.include(result[1].trim());
         }
         else {
-            const propertiesTodelete = ['cookies', 'headersSize', 'startedDateTime'],
+            const propertiesTodelete = ['cookies', 'headersSize', 'startedDateTime', 'clientIPAddress'],
                 headersTodelete = [
                     'accept-encoding',
                     'user-agent',
                     'cf-ray',
+                    'x-real-ip',
                     'x-request-id',
+                    'kong-request-id',
                     'x-request-start',
                     'connect-time',
                     'x-forwarded-for',
