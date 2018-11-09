@@ -1,5 +1,8 @@
 # codegen-curl Changelog
 
+#### v0.1.5 (Novermber 9, 2018)
+* Better defaults for indentSize
+
 #### v0.1.4 (October 22, 2018)
 * Removed the silent mode flag from generated snippets
 
