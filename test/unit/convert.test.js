@@ -129,7 +129,7 @@ describe('curl convert function', function () {
                         multiLine: true,
                         followRedirect: true,
                         longFormat: true,
-                        testMode: true
+                        silent: true
                     };
                 convert(request, options, function (error, snippet) {
                     if (error) {
