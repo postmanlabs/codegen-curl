@@ -128,7 +128,8 @@ describe('curl convert function', function () {
                         requestTimeout: 200,
                         multiLine: true,
                         followRedirect: true,
-                        longFormat: true
+                        longFormat: true,
+                        silent: true
                     };
                 convert(request, options, function (error, snippet) {
                     if (error) {
