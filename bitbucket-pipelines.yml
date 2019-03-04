@@ -1,8 +1,0 @@
-pipelines:
-  default:
-    - step:
-        caches:
-          - node
-        script:
-           - npm install
-           - npm test
