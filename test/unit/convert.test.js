@@ -78,6 +78,7 @@ function runSnippet (codeSnippet, collection, done) {
                     'x-forwarded-for',
                     'content-type',
                     'content-length',
+                    'kong-cloud-request-id',
                     'accept',
                     'total-route-time',
                     'cookie'
