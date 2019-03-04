@@ -1,5 +1,7 @@
 # codegen-curl
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/postmanlabs/codegen-curl.svg)](https://greenkeeper.io/)
+
 > Converts Postman-SDK Request into code snippet for cURL.
 
 ## Getting Started
