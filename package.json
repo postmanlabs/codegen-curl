@@ -13,7 +13,9 @@
     "test": "node npm/test.js",
     "test-lint": "node npm/test-lint.js",
     "test-unit": "node npm/test-unit.js",
-    "test-system": "node npm/test-system.js"
+    "test-system": "node npm/test-system.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -23,7 +25,8 @@
   "license": "Apache-2.0",
   "homepage": "https://bitbucket.org/postmanlabs/codegen-curl#readme",
   "dependencies": {
-    "lodash": "4.17.5"
+    "lodash": "4.17.5",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {
     "async": "2.6.0",
@@ -47,5 +50,6 @@
   },
   "engines": {
     "node": ">=4"
-  }
+  },
+  "snyk": true
 }
